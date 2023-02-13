@@ -1,9 +1,12 @@
 package org.example;
 
 public class LoginInformation {
-    private String email = "a202110419@feucanvas.edu.ph";
-    private String password = "Gabrielabel08";
-
+    private String email = "";
+    private String password = "";
+    LoginInformation(){
+        email = this.email;
+        password = this.password;
+    }
 
     public String getEmail() {
         return email;

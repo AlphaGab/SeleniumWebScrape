@@ -16,7 +16,7 @@ import java.awt.*;
 
 
 public class Main {
-    static WebDriver driver;
+
 
     public static void main(String[] args) throws MalformedURLException {
         System.setProperty("webdriver.chrome.driver", "C:\\drivers\\chromedriver.exe");
@@ -24,40 +24,13 @@ public class Main {
         while (!checkConnection) {
             checkConnection = hasConnected();
         }
-            Canvas canvas = new Canvas(new LoginInformation());
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
-            driver = new ChromeDriver(options);
-            try {
-                driver.get("https://feucanvas.instructure.com/courses/82225/announcements");
+        Canvas canvas = new Canvas(new LoginInformation());
 
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-            WebElement login = waitForElement(By.id("i0116"));
-            login.sendKeys(canvas.getCanvasEmail());
-            WebElement submit = waitForElement(By.id("idSIButton9"));
-            submit.click();
-            login = waitForElement(By.id("i0118"));
-            login.sendKeys(canvas.getCanvasPassword());
-            submit = waitForElement(By.id("idSIButton9"));
-            submit.click();
-            submit = waitForElement(By.linkText("Use a different account"));
-            submit.click();
-            submit = waitForElement(By.cssSelector("#tilesHolder > div.tile-container > div > div.table"));
-            submit.click();
-            submit = waitForElement(By.xpath("//*[@id=\"content\"]/div/span[3]/div[1]/div[2]/a[1]/div"));
-            submit.click();
-            String text = driver.findElement(By.xpath("//*[@id=\"discussion_topic\"]/div[1]/div")).getText();
-            System.out.println(text);
-            driver.quit();
-        }
+       String link = findZoomLink(canvas.analyticsAnnouncement());
+        openLink(link);
 
-        public static WebElement waitForElement (By selector){
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(4L));
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(selector));
+    }
 
-        }
         public static void openLink (String link){
             Desktop desk = Desktop.getDesktop();
 
@@ -67,7 +40,15 @@ public class Main {
                 System.out.println(e);
             }
         }
-        public static boolean hasConnected() throws MalformedURLException {
+        public static String findZoomLink(String link){
+                String temp = link.substring(link.indexOf("https"),link.lastIndexOf(" ")).trim();
+                String temp2= temp.substring(0, temp.indexOf("\n"));
+            if(temp2.contains("L")){
+                temp2= temp2.substring(0, temp2.indexOf("L"));
+            }
+            return temp2;
+        }
+        public static boolean hasConnected () throws MalformedURLException {
             String host = "https://google.com";
             URL url = new URL(host);
             boolean status = true;
@@ -78,7 +59,6 @@ public class Main {
                 System.out.println("Connected");
                 con.disconnect();
 
-
             } catch (Exception e) {
                 status = false;
             }
@@ -86,6 +66,5 @@ public class Main {
         }
 
     }
-
 
 
