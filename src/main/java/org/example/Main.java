@@ -24,7 +24,7 @@ public class Main {
         while (!checkConnection) {
             checkConnection = hasConnected();
         }
-            LoginInformation myAccount = new LoginInformation();
+            Canvas canvas = new Canvas(new LoginInformation());
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
             driver = new ChromeDriver(options);
@@ -35,11 +35,11 @@ public class Main {
                 System.out.println(e.getMessage());
             }
             WebElement login = waitForElement(By.id("i0116"));
-            login.sendKeys(myAccount.getEmail());
+            login.sendKeys(canvas.getCanvasEmail());
             WebElement submit = waitForElement(By.id("idSIButton9"));
             submit.click();
             login = waitForElement(By.id("i0118"));
-            login.sendKeys(myAccount.getPassword());
+            login.sendKeys(canvas.getCanvasPassword());
             submit = waitForElement(By.id("idSIButton9"));
             submit.click();
             submit = waitForElement(By.linkText("Use a different account"));
